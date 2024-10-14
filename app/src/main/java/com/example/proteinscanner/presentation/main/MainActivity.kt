@@ -1,4 +1,4 @@
-package com.example.proteinscanner
+package com.example.proteinscanner.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
