@@ -15,19 +15,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.proteinscanner.App
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.proteinscanner.R
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreen() {
-    val repository = (LocalContext.current.applicationContext as App).repository
-    val viewModelFactory = MainViewModelFactory(repository)
-    val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
+fun MainScreen(
+    viewModel: MainViewModel = hiltViewModel()
+) {
     val barcode = viewModel.barcodeState.collectAsState()
 
 
