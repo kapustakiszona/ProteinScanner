@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -17,7 +19,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    packaging {
+        resources {
+            excludes += "META-INF/gradle/incremental.annotation.processors"
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -40,6 +46,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.play.services.code.scanner)
     implementation(libs.androidx.core.ktx)
