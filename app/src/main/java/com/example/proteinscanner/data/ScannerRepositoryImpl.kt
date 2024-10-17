@@ -7,8 +7,10 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ScannerRepositoryImpl(private val scanner: GmsBarcodeScanner) : ScannerRepository {
+class ScannerRepositoryImpl @Inject constructor(private val scanner: GmsBarcodeScanner) :
+    ScannerRepository {
     override fun startScanning(): Flow<String?> {
         return callbackFlow {
             scanner.startScan()

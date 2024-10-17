@@ -9,23 +9,23 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
+import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepoModule {
 
-    @Singleton
     @Provides
-    fun provideScannerRepo(scanner: GmsBarcodeScanner): ScannerRepositoryImpl {
-        return ScannerRepositoryImpl(scanner)
-    }
-
     @Singleton
-    @Provides
     fun provideGmsScanner(@ApplicationContext context: Context): GmsBarcodeScanner {
         return GmsBarcodeScanning.getClient(context)
 
     }
 
+    @Provides
+    @Singleton
+    fun provideScannerRepo(scanner: GmsBarcodeScanner): ScannerRepositoryImpl {
+        return ScannerRepositoryImpl(scanner)
+    }
 }
