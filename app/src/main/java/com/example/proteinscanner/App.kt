@@ -4,8 +4,9 @@ import android.app.Application
 import com.example.proteinscanner.data.ScannerRepositoryImpl
 import com.example.proteinscanner.domain.ScannerRepository
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
+import dagger.hilt.android.HiltAndroidApp
 
-
+@HiltAndroidApp
 class App : Application() {
 
     private val scanner by lazy {

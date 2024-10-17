@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -41,10 +40,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.logging.interceptor)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.retrofit)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.play.services.code.scanner)
     implementation(libs.androidx.core.ktx)
