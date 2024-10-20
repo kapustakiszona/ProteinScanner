@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.logging.interceptor)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
