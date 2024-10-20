@@ -46,8 +46,13 @@ android {
 }
 
 dependencies {
-    implementation(libs.hilt.android.compiler)
+    implementation(libs.logging.interceptor)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit2.retrofit)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.play.services.code.scanner)
     implementation(libs.androidx.core.ktx)
