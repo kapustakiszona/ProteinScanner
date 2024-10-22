@@ -1,33 +1,67 @@
 package com.example.proteinscanner.presentation.main
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.proteinscanner.data.ScannerRepositoryImpl
-import com.example.proteinscanner.data.network.api.NetworkRepositoryImpl
+import com.example.proteinscanner.data.util.DataState
+import com.example.proteinscanner.domain.repository.NetworkRepository
+import com.example.proteinscanner.domain.repository.ScannerRepository
+import com.example.proteinscanner.domain.viewstate.ProductViewEvent
+import com.example.proteinscanner.domain.viewstate.ProductViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor
     (
-    private val scannerRepository: ScannerRepositoryImpl,
-    private val networkRepository: NetworkRepositoryImpl
-) : ViewModel() {
+    private val networkRepository: NetworkRepository,
+    private val scannerRepository: ScannerRepository
+) : BaseViewModel<ProductViewState, ProductViewEvent>() {
 
-    private val _barcodeState = MutableStateFlow(BarcodeState())
-    val barcodeState = _barcodeState.asStateFlow()
+    private fun getProductByBarcode(barcode: String) {
+        viewModelScope.launch {
+            setState { currentState.copy(isLoading = true) }
+            networkRepository.getProduct(barcode).collect { dataState ->
+                when (dataState) {
+                    is DataState.Error -> {
+                        setState { currentState.copy(isLoading = false) }
+                        setEvent(ProductViewEvent.SnackBarError(dataState.apiError?.message))
+                    }
+
+                    is DataState.Loading -> {
+                        setState { currentState.copy(isLoading = true) }
+                    }
+
+                    is DataState.Success -> {
+                        setState {
+                            currentState.copy(
+                                isLoading = false,
+                                data = listOf(dataState.data)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     fun startScanning() {
         viewModelScope.launch {
+            setState { currentState.copy(isLoading = true) }
             scannerRepository.startScanning().collect { code ->
                 if (!code.isNullOrBlank()) {
-                    _barcodeState.value = barcodeState.value.copy(
-                        barcode = code
-                    )
+                    getProductByBarcode(code)
                 }
+            }
+        }
+    }
+
+    override fun createInitialState() = ProductViewState()
+
+    override fun onTriggerEvent(event: ProductViewEvent) {
+        viewModelScope.launch {
+            when (event) {
+                is ProductViewEvent.ScanProduct -> startScanning()
+                is ProductViewEvent.SnackBarError -> {}
             }
         }
     }

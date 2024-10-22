@@ -1,5 +1,6 @@
-package com.example.proteinscanner.data.network.api
+package com.example.proteinscanner.data.network.source
 
+import android.util.Log
 import com.example.proteinscanner.data.util.ApiError
 import com.example.proteinscanner.data.util.DataState
 import kotlinx.coroutines.Dispatchers
@@ -21,16 +22,18 @@ open class BaseRemoteDataSource {
                 else {
                     val apiError: ApiError =
                         Json.decodeFromString(response.errorBody()?.string() ?: "")
+                    Log.d("zalupa", "getResult: error ${apiError.message}")
                     emit(DataState.Error(apiError = apiError))
                 }
             } else {
                 val apiError: ApiError =
                     Json.decodeFromString(response.errorBody()?.string() ?: "")
+                Log.d("zalupa", "getResult: error ${apiError.message}")
                 emit(DataState.Error(apiError = apiError))
             }
-
         }
             .catch {
+                Log.d("zalupa", "getResult: error ${it.message}")
                 emit(DataState.Error(apiError = ApiError(-1, it.message ?: it.toString())))
             }
             .onStart { emit(DataState.Loading()) }

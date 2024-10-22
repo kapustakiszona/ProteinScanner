@@ -1,7 +1,9 @@
 package com.example.proteinscanner.di
 
-import com.example.proteinscanner.data.network.api.ProductRemoteDataSource
+import com.example.proteinscanner.data.network.repository.NetworkRepositoryImpl
+import com.example.proteinscanner.data.network.source.ProductRemoteDataSource
 import com.example.proteinscanner.data.network.api.ProductService
+import com.example.proteinscanner.domain.repository.NetworkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,11 +15,16 @@ import retrofit2.Retrofit
 object ProductModule {
 
     @Provides
-    fun providesProductService(retrofit: Retrofit): ProductService =
-        retrofit.create(ProductService::class.java)
-
+    fun providesProductService(retrofit: Retrofit): ProductService {
+        val service = retrofit.create(ProductService::class.java)
+        return service
+    }
 
     @Provides
     fun providesProductRemoteDataSource(productService: ProductService): ProductRemoteDataSource =
         ProductRemoteDataSource(productService)
+
+    @Provides
+    fun providesNetworkRepository(productRemoteDataSource: ProductRemoteDataSource): NetworkRepository =
+        NetworkRepositoryImpl(productRemoteDataSource)
 }

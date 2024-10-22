@@ -9,6 +9,6 @@ data class ProductResponseDto(
     val id: String,
     @SerialName("product")
     val productDto: ProductDto,
-    val status: Int,
-    val status_verbose: String
+//    val status: Int,
+//    val status_verbose: String
 )
