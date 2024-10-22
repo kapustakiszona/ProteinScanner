@@ -1,4 +1,4 @@
-package com.example.proteinscanner.domain
+package com.example.proteinscanner.domain.model
 
 data class Product(
     val name: String,
@@ -7,5 +7,5 @@ data class Product(
     val protein: Double,
     val fat: Double,
     val carbohydrates: Double,
-    val calories: Double
+  //  val calories: Double
 )

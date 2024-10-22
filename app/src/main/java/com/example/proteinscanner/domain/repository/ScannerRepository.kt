@@ -1,4 +1,4 @@
-package com.example.proteinscanner.domain
+package com.example.proteinscanner.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 

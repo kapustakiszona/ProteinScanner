@@ -12,7 +12,6 @@ interface ProductService {
     @GET("{barcode}")
     suspend fun getProductByBarcode(
         @Path(Constants.BARCODE) barcode: String,
-        @Query("fields") fields: String =
-            "product_name,nutriments{proteins_100g,carbohydrates_100g,fat_100g},product_url"
+        @Query("fields") fields: String = Constants.QUERY_PARAMS
     ): Response<ProductResponseDto>
 }

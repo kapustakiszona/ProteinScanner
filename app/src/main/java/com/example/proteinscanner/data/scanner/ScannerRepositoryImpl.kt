@@ -1,6 +1,6 @@
-package com.example.proteinscanner.data
+package com.example.proteinscanner.data.scanner
 
-import com.example.proteinscanner.domain.ScannerRepository
+import com.example.proteinscanner.domain.repository.ScannerRepository
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner
 import kotlinx.coroutines.channels.awaitClose
@@ -28,7 +28,7 @@ class ScannerRepositoryImpl @Inject constructor(private val scanner: GmsBarcodeS
 
     fun getDetails(barcode: Barcode): String {
         return if (barcode.valueType == Barcode.TYPE_PRODUCT) {
-            "barcode: ${barcode.displayValue}"
+            "${barcode.displayValue}"
         } else {
             "I can't scan that type of barcode"
         }

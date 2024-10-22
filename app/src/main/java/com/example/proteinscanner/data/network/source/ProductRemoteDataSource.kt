@@ -1,5 +1,6 @@
-package com.example.proteinscanner.data.network.api
+package com.example.proteinscanner.data.network.source
 
+import com.example.proteinscanner.data.network.api.ProductService
 import com.example.proteinscanner.data.network.model.ProductResponseDto
 import com.example.proteinscanner.data.util.DataState
 import kotlinx.coroutines.flow.Flow

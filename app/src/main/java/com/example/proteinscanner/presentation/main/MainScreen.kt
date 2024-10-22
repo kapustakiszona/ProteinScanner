@@ -19,14 +19,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.proteinscanner.R
+import com.example.proteinscanner.data.util.toProduct
+import com.example.proteinscanner.domain.model.Product
 
 @Preview(showBackground = true)
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val barcode = viewModel.barcodeState.collectAsState()
-
+    val viewState = viewModel.uiState.collectAsState().value
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -39,7 +40,13 @@ fun MainScreen(
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { padding ->
-        Text(text = barcode.value.barcode, modifier = Modifier.padding(padding))
+
+        ScannedProducts(
+            products = viewState.data?.map {
+                it.toProduct()
+            }.orEmpty(),
+            paddings = padding
+        )
     }
 }
 
@@ -63,7 +70,7 @@ fun ScannedProducts(products: List<Product>, paddings: PaddingValues) {
             ProductDetails(
                 productName = product.name,
                 productImage = product.image,
-                productDescription = product.description
+                productDescription = product.id.toString()
             )
         }
     }
